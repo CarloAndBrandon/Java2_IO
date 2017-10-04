@@ -1,21 +1,18 @@
 package contacts_manager;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 public class ContentsTest {
-    public static void main(String[] args) throws IOException{
-        Path path = Paths.get("contacts_manager", "contacts.txt");{
-if(!Files.exists(path)){
-    Files.createFile(path);
-}
+    public static void main(String[] args) throws IOException {
+        String directory = "data";
+        String filename = "contacts.txt";
 
-
-            System.out.println(path);
-        }
+        FileHandler contactsFile = new FileHandler (directory, filename);
+        contactsFile.createFile();
     }
 }
