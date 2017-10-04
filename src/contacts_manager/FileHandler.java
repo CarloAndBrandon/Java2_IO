@@ -1,42 +1,46 @@
 package contacts_manager;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
-import static java.nio.file.StandardOpenOption.APPEND;
-
 public class FileHandler {
     private String directory;
     private String fileName;
+    private Path dataFile;
 
-    public FileHandler(String directory, String fileName) {
+
+    public FileHandler(String directory, String fileName) throws IOException {
         this.directory = directory;
         this.fileName = fileName;
-
+        this.dataFile = Paths.get(this.directory, this.fileName);
+        createFile();
     }
 
     public void createFile() throws IOException {
         Path dataDirectory = Paths.get(this.directory);
         Path dataFile = Paths.get(this.directory, this.fileName);
+
         if (Files.notExists(dataDirectory)) {
             Files.createDirectories(dataDirectory);
         }
         if (!Files.exists(dataFile)) {
             Files.createFile(dataFile);
+
         }
 
     }
+    public void writeToFile(List<String> contacts) throws IOException {
+        Files.write( dataFile, contacts, StandardOpenOption.APPEND);
+    }
 
-//   public void writeToFile() {
-//        Files.write(Path dataFile, contacts, APPEND);
-//    }
-//
-//    public void readToFile () {
-//        List<String> contactsRead = Files.readAllLines(Path dataFile);
-//    }
+    public List<String> readFromFile() throws IOException {
+        return Files.readAllLines(dataFile);
+    }
 }
+
+
