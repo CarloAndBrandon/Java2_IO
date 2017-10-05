@@ -1,6 +1,7 @@
 package contacts_manager;
 
 import util.Input;
+
 import java.io.IOException;
 import java.lang.invoke.SwitchPoint;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class ContentsTest {
         }
     }
 
-    public static void namesOnly (List<String> contacts) {
+    public static void namesOnly(List<String> contacts) {
         for (String contact : contacts) {
 //            System.out.println(contact);
             String[] contName = contact.split(Pattern.quote("|"));
@@ -40,46 +41,58 @@ public class ContentsTest {
         System.out.println("3. Search a contact by name.");
         System.out.println("4. Delete an existing contact.");
         System.out.println("5. Exit.");
-        System.out.println("Enter an option (1, 2, 3, 4 or 5):");
-
-
+        System.out.println("\nEnter an option (1, 2, 3, 4 or 5):");
 
     }
-
-
 
 
     public static void addContact(List<String> contacts) {
+        String addContactName = input.getString("Add a contact Name:");
+        try {
+            Integer.parseInt(addContactName);
+            System.out.println("The name can not be a number. Please enter a valid name");
+            addContact(contacts);
+            return;
+        } catch (NumberFormatException nfe) {
 
-
-            String addContactName = input.getString("Add a contact Name:");
-            String addContactNumber = input.getString("Add the contacts number:");
-            contacts.add(addContactName + " | " + addContactNumber);
-
+        }
+        int addContactNumber = input.getInt("Add the contact number:");
+        contacts.add(addContactName + " | " + addContactNumber);
     }
 
-    public static void searchByName(List<String> contacts) {
-        String searchByName = input.getString("Search Contact name");
+    public static String searchByName(List<String> contacts) {
+        namesOnly(contacts);
+        String searchByName = input.getString("\nSearch Contact name:");
 
         for (String contact : contacts) {
             String[] contactSearch = contact.split(Pattern.quote("|"));
 
             if (contactSearch[0].trim().equalsIgnoreCase(searchByName)) {
-                System.out.println(contact);
-
-
+                return "\n" + contact;
             }
         }
+        System.out.println("\nSorry that is not a valid input, please try again\n");
+        //return searchByName(contacts);
+        return "";
 
     }
 
     public static List<String> deleteExistingContact(List<String> contacts) {
         List<String> newContactList = new ArrayList<>();
 
+        printAllContacts(contacts);
+        String deleteContact = input.getString("\nRemove a contact of your choice");
+        int index = -1;
 
-            printAllContacts(contacts);
-            String deleteContact = input.getString("Remove a contact of your choice");
+        for (int i = 0; i < contacts.size(); i++) {
+            String name = contacts.get(i).split(" | ")[0];
+            if (name.equals(deleteContact)) {
+                index = i;
+                break;
+            }
+        }
 
+        if (index >= 0) {
             for (String contact : contacts) {
                 String[] contactInfo = contact.split(" | ");
 
@@ -88,13 +101,18 @@ public class ContentsTest {
                 }
                 newContactList.add(contact);
             }
-        return newContactList;
+            return newContactList;
+        } else {
+            System.out.println("The name you inputted does not match a name on the list!");
+            return contacts;
+        }
+
     }
 
     public static void exit(FileHandler fileHandler, List<String> contacts) {
 
-            System.out.println("Goodbye, have a great day!)");
-            fileHandler.writeToFile(contacts);
+        System.out.println("Goodbye, have a great day!)");
+        fileHandler.writeToFile(contacts);
 
     }
 
@@ -106,44 +124,56 @@ public class ContentsTest {
 
         do {
 
+            displayMenu();
+            int a = input.getInt();
+            switch (a) {
+                case 1:
+                    System.out.println();
+                    printAllContacts(contacts);
+                    System.out.println();
 
-        displayMenu();
-        int a = input.getInt();
-        switch (a) {
-            case 1:
-                printAllContacts(contacts);
-                System.out.println();
-                break;
-            case 2:
-                addContact(contacts);
-                System.out.println();
-                printAllContacts(contacts);
-                break;
-            case 3:
-                namesOnly(contacts);
-                searchByName(contacts);
-                System.out.println();
-                break;
-            case 4:
-                contacts = deleteExistingContact(contacts);
-                System.out.println();
-                printAllContacts(contacts);
-                break;
-            case 5:
-                exit(filehandler, contacts);
-                System.exit(a);
-                break;
-            default:
-                System.out.println("Sorry that not a valid input");
-                break;
-        }
-        another = input.getString("\"Would you like to go back to the main menu?");
+                    break;
+                case 2:
+                    System.out.println();
+                    addContact(contacts);
+                    System.out.println();
+                    printAllContacts(contacts);
+                    System.out.println();
+                    break;
+                case 3:
+                    System.out.println();
+                    System.out.println(searchByName(contacts));
+                    System.out.println();
+                    break;
+                case 4:
+                    System.out.println();
+                    contacts = deleteExistingContact(contacts);
+                    System.out.println();
+                    printAllContacts(contacts);
+                    break;
+                case 5:
+                    System.out.println();
+                    exit(filehandler, contacts);
+                    System.exit(a);
+                    System.out.println();
+                    break;
+                default:
+                    System.out.println();
+                    System.out.println("Sorry that not a valid input");
+                    break;
+            }
+            another = input.getString("Would you like to go back to the main menu?");
 
+            while (!another.equalsIgnoreCase("n") && !another.equalsIgnoreCase("no") &&
+                    !another.equalsIgnoreCase("y") && !another.equalsIgnoreCase("yes")) {
+                System.out.println("Please answer 'yes' or 'no'.");
+                another = input.getString("\"Would you like to go back to the main menu?");
+            }
 
-    }while (another.equalsIgnoreCase("y") || (another.equalsIgnoreCase("yes")));
+        } while (another.equalsIgnoreCase("y") || (another.equalsIgnoreCase("yes")));
         exit(filehandler, contacts);
 
-    }
 
+    }
 
 }

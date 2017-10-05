@@ -43,7 +43,7 @@ public class Input {
         try {
             return Integer.valueOf(userInput);
         } catch (NumberFormatException nfe) {
-            System.out.println("Sorry, you did not enter an integer. Please enter an integer.");
+            System.out.println("Sorry, you did not enter a valid input. Please try again.");
             return getInt();
         }
 
