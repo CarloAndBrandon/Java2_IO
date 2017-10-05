@@ -18,7 +18,6 @@ public class FileHandler {
         this.directory = directory;
         this.fileName = fileName;
         this.dataFile = Paths.get(this.directory, this.fileName);
-        createFile();
     }
 
     public void createFile() throws IOException {
@@ -42,5 +41,3 @@ public class FileHandler {
         return Files.readAllLines(dataFile);
     }
 }
-
-
