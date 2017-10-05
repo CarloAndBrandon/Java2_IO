@@ -59,7 +59,7 @@ public class ContentsTest {
         contacts.add(addContactName + " | " + addContactNumber);
     }
 
-    public static void searchByName (){
+    public static void searchByName (List<String> contacts){
 
     }
 
