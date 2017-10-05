@@ -34,7 +34,7 @@ public class FileHandler {
 
     }
     public void writeToFile(List<String> contacts) throws IOException {
-        Files.write( dataFile, contacts, StandardOpenOption.APPEND);
+        Files.write( dataFile, contacts);
     }
 
     public List<String> readFromFile() throws IOException {
