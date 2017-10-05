@@ -14,30 +14,54 @@ public class FileHandler {
     private Path dataFile;
 
 
-    public FileHandler(String directory, String fileName) throws IOException {
-        this.directory = directory;
-        this.fileName = fileName;
-        this.dataFile = Paths.get(this.directory, this.fileName);
-    }
+    public FileHandler(String directory, String fileName) {
+        try {
 
-    public void createFile() throws IOException {
-        Path dataDirectory = Paths.get(this.directory);
-        Path dataFile = Paths.get(this.directory, this.fileName);
-
-        if (Files.notExists(dataDirectory)) {
-            Files.createDirectories(dataDirectory);
+            this.directory = directory;
+            this.fileName = fileName;
+            this.dataFile = Paths.get(this.directory, this.fileName);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
-        if (!Files.exists(dataFile)) {
-            Files.createFile(dataFile);
+    }
+
+    public void createFile() {
+        try {
+            Path dataDirectory = Paths.get(this.directory);
+            Path dataFile = Paths.get(this.directory, this.fileName);
+
+            if (Files.notExists(dataDirectory)) {
+                Files.createDirectories(dataDirectory);
+            }
+            if (!Files.exists(dataFile)) {
+                Files.createFile(dataFile);
+
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
 
         }
 
-    }
-    public void writeToFile(List<String> contacts) throws IOException {
-        Files.write( dataFile, contacts);
+    public void writeToFile(List<String> contacts) {
+        try {
+            Files.write(dataFile, contacts);
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+            ioe.printStackTrace();
+        }
     }
 
-    public List<String> readFromFile() throws IOException {
-        return Files.readAllLines(dataFile);
+    public List<String> readFromFile() {
+        try {
+            return Files.readAllLines(dataFile);
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+            ioe.printStackTrace();
+        }
+
+        return null;
     }
 }
