@@ -18,7 +18,6 @@ public class FileHandler {
         this.directory = directory;
         this.fileName = fileName;
         this.dataFile = Paths.get(this.directory, this.fileName);
-        createFile();
     }
 
     public void createFile() throws IOException {
@@ -35,12 +34,10 @@ public class FileHandler {
 
     }
     public void writeToFile(List<String> contacts) throws IOException {
-        Files.write( dataFile, contacts, StandardOpenOption.APPEND);
+        Files.write( dataFile, contacts);
     }
 
     public List<String> readFromFile() throws IOException {
         return Files.readAllLines(dataFile);
     }
 }
-
-
