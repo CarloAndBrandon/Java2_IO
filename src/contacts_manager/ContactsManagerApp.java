@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class ContentsTest {
+public class ContactsManagerApp {
     public static Input input = new Input();
 
     public static void main(String[] args) throws IOException {
