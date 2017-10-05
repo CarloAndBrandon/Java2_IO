@@ -10,10 +10,10 @@ public class NameSearch {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return this.phoneNumber;
     }
 }
