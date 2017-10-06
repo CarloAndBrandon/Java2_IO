@@ -12,22 +12,8 @@ public class ContactsManagerApp {
 
     public static void main(String[] args) throws IOException {
 //        createContactsApplication();
-        greatCommandLineProgramcreatedByTheBestTwoProgrammersInCodeupBitchesMotherfuckerSuckMyDickFuckYouRepresent210();
-
-
+        greatCommandLineProgram();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -42,30 +28,29 @@ public class ContactsManagerApp {
     }
 
     public static void printAllContacts(List<String> s) {
-
-        System.out.println("Name   |  Phone Number\n" + "------------------------");
+        System.out.printf("Name               |  Phone Number |\n" + "------------------------------------");
+        System.out.println("");
         for (String contact : s) {
             String[] contactParts = contact.split("[|]");
-            System.out.println(contactParts[0] + " | " + phoneFormatter(contactParts[1].trim()));
-
-
+            System.out.printf("%-19s| %-12s |\n", contactParts[0], phoneFormatter(contactParts[1].trim()));
         }
     }
 
     public static void addContact(List<String> contacts) {
-        String addContactName = input.getString("Add a contact Name:");
-        try {
-            Integer.parseInt(addContactName);
-            System.out.println("The name can not be a number. Please enter a valid name");
-            addContact(contacts);
-            return;
-        } catch (NumberFormatException nfe) {
 
+        String addContactName = input.getString("Add a contact Name:");
+
+        for (char contact : addContactName.toCharArray()) {
+            if (!Character.isLetter(contact) && !Character.isSpaceChar(contact) && (contact != '-'))  {
+                System.out.println("The name can not be a number. Please enter a valid name");
+                System.out.println("invalid");
+                addContact(contacts);
+                return;
+            }
         }
         String addContactNumber = input.getPhoneNumber("Add the contact number:");
         contacts.add(addContactName + " | " + addContactNumber);
     }
-
 
 
     public static String searchByName(List<String> contacts) {
@@ -79,11 +64,9 @@ public class ContactsManagerApp {
                 return "\n" + contact;
             }
         }
-        System.out.println("\nSorry that is not a valid input, please try again\n");
+        System.out.println("\nSorry that is not a valid input.");
         return "";
     }
-
-
 
 
     public static void namesOnly(List<String> contacts) {
@@ -98,32 +81,23 @@ public class ContactsManagerApp {
         List<String> newContactList = new ArrayList<>();
 
         printAllContacts(contacts);
+
         String deleteContact = input.getString("\nRemove a contact of your choice");
-        int index = -1;
+        boolean nameNotAvailable = true;
 
-        for (int i = 0; i < contacts.size(); i++) {
-            String name = contacts.get(i).split(" | ")[0];
-            if (name.equals(deleteContact)) {
-                index = i;
-                break;
-            }
-        }
-
-        if (index >= 0) {
-            for (String contact : contacts) {
+        for (String contact : contacts) {
                 String[] contactInfo = contact.split(" | ");
 
-                if (contactInfo[0].equals(deleteContact)) {
+                if (contactInfo[0].equalsIgnoreCase(deleteContact)) {
+                    nameNotAvailable = false;
                     continue;
                 }
                 newContactList.add(contact);
             }
-            return newContactList;
-        } else {
+            if(nameNotAvailable) {
             System.out.println("The name you inputted does not match a name on the list!");
-            return contacts;
-        }
-
+            }
+            return newContactList;
     }
 
     public static void exit(FileHandler fileHandler, List<String> contacts) {
@@ -134,16 +108,15 @@ public class ContactsManagerApp {
     }
 
 
-    public static String phoneFormatter(String phoneNumber){
-        String areaCode = phoneNumber.substring(0,3);
-        String threeNumbersAfterAreaCode = phoneNumber.substring(3,6);
+    public static String phoneFormatter(String phoneNumber) {
+        String areaCode = phoneNumber.substring(0, 3);
+        String threeNumbersAfterAreaCode = phoneNumber.substring(3, 6);
         String lastFourNumbers = phoneNumber.substring(6);
         return "(" + areaCode + ")" + threeNumbersAfterAreaCode + "-" + lastFourNumbers;
     }
 
 
-
-    public static void  greatCommandLineProgramcreatedByTheBestTwoProgrammersInCodeupBitchesMotherfuckerSuckMyDickFuckYouRepresent210() {
+    public static void greatCommandLineProgram() {
 
         FileHandler filehandler = new FileHandler("data", "contacts.txt");
         List<String> contacts = filehandler.readFromFile();
@@ -189,20 +162,17 @@ public class ContactsManagerApp {
                     System.out.println("Sorry that not a valid input");
                     break;
             }
-            another = input.getString("Would you like to go back to the main menu?");
+            another = input.getString("\nWould you like to go back to the main menu?");
+            System.out.println("");
 
             while (!another.equalsIgnoreCase("n") && !another.equalsIgnoreCase("no") &&
                     !another.equalsIgnoreCase("y") && !another.equalsIgnoreCase("yes")) {
                 System.out.println("Please answer 'yes' or 'no'.");
-                another = input.getString("\"Would you like to go back to the main menu?");
+                another = input.getString("Would you like to go back to the main menu?");
+                System.out.println("");
             }
 
         } while (another.equalsIgnoreCase("y") || (another.equalsIgnoreCase("yes")));
         exit(filehandler, contacts);
-
-
     }
-
-
-
 }
