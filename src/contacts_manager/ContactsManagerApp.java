@@ -3,7 +3,6 @@ package contacts_manager;
 import util.Input;
 
 import java.io.IOException;
-import java.lang.invoke.SwitchPoint;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -12,27 +11,24 @@ public class ContactsManagerApp {
     public static Input input = new Input();
 
     public static void main(String[] args) throws IOException {
-        greatCommandLineProgram();
+//        createContactsApplication();
+        greatCommandLineProgramcreatedByTheBestTwoProgrammersInCodeupBitchesMotherfuckerSuckMyDickFuckYouRepresent210();
+
+
     }
 
 
-    public static void printAllContacts(List<String> contacts) {
-
-        System.out.println("Name   |  Phone Number\n" + "------------------------");
-        for (String contact : contacts) {
-            System.out.println(contact);
 
 
-        }
-    }
 
-    public static void namesOnly(List<String> contacts) {
-        for (String contact : contacts) {
-//            System.out.println(contact);
-            String[] contName = contact.split(Pattern.quote("|"));
-            System.out.println(contName[0]);
-        }
-    }
+
+
+
+
+
+
+
+
 
 
     public static void displayMenu() {
@@ -45,6 +41,16 @@ public class ContactsManagerApp {
 
     }
 
+    public static void printAllContacts(List<String> s) {
+
+        System.out.println("Name   |  Phone Number\n" + "------------------------");
+        for (String contact : s) {
+            String[] contactParts = contact.split("[|]");
+            System.out.println(contactParts[0] + " | " + phoneFormatter(contactParts[1].trim()));
+
+
+        }
+    }
 
     public static void addContact(List<String> contacts) {
         String addContactName = input.getString("Add a contact Name:");
@@ -56,9 +62,11 @@ public class ContactsManagerApp {
         } catch (NumberFormatException nfe) {
 
         }
-        int addContactNumber = input.getInt("Add the contact number:");
+        String addContactNumber = input.getPhoneNumber("Add the contact number:");
         contacts.add(addContactName + " | " + addContactNumber);
     }
+
+
 
     public static String searchByName(List<String> contacts) {
         namesOnly(contacts);
@@ -72,10 +80,19 @@ public class ContactsManagerApp {
             }
         }
         System.out.println("\nSorry that is not a valid input, please try again\n");
-        //return searchByName(contacts);
         return "";
-
     }
+
+
+
+
+    public static void namesOnly(List<String> contacts) {
+        for (String contact : contacts) {
+            String[] contName = contact.split(Pattern.quote("|"));
+            System.out.println(contName[0]);
+        }
+    }
+
 
     public static List<String> deleteExistingContact(List<String> contacts) {
         List<String> newContactList = new ArrayList<>();
@@ -116,7 +133,17 @@ public class ContactsManagerApp {
 
     }
 
-    public static void greatCommandLineProgram() {
+
+    public static String phoneFormatter(String phoneNumber){
+        String areaCode = phoneNumber.substring(0,3);
+        String threeNumbersAfterAreaCode = phoneNumber.substring(3,6);
+        String lastFourNumbers = phoneNumber.substring(6);
+        return "(" + areaCode + ")" + threeNumbersAfterAreaCode + "-" + lastFourNumbers;
+    }
+
+
+
+    public static void  greatCommandLineProgramcreatedByTheBestTwoProgrammersInCodeupBitchesMotherfuckerSuckMyDickFuckYouRepresent210() {
 
         FileHandler filehandler = new FileHandler("data", "contacts.txt");
         List<String> contacts = filehandler.readFromFile();
@@ -175,5 +202,7 @@ public class ContactsManagerApp {
 
 
     }
+
+
 
 }

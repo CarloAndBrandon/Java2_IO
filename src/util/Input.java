@@ -104,4 +104,23 @@ public class Input {
             return getHexidecimal();
         }
     }
+
+    public String getPhoneNumber(String prompt){
+        System.out.println(prompt);
+        String userInput = scanner.nextLine();
+
+        try {
+            Long.valueOf(userInput);
+        }catch (NumberFormatException e){
+            System.out.println("Must be numbers");
+            return getPhoneNumber(prompt);
+        }
+
+        if (userInput.trim().length() != 10) {
+            System.out.println("Must be 10 numbers long!");
+            return getPhoneNumber(prompt);
+        }
+
+        return userInput;
+    }
 }
