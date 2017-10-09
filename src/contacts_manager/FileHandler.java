@@ -26,25 +26,6 @@ public class FileHandler {
         }
     }
 
-    public void createFile() {
-        try {
-            Path dataDirectory = Paths.get(this.directory);
-            Path dataFile = Paths.get(this.directory, this.fileName);
-
-            if (Files.notExists(dataDirectory)) {
-                Files.createDirectories(dataDirectory);
-            }
-            if (!Files.exists(dataFile)) {
-                Files.createFile(dataFile);
-
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-
-        }
-
     public void writeToFile(List<String> contacts) {
         try {
             Files.write(dataFile, contacts);
@@ -64,4 +45,26 @@ public class FileHandler {
 
         return null;
     }
+
+
+
+    //
+//    public void createFile() {
+//        try {
+//            Path dataDirectory = Paths.get(this.directory);
+//            Path dataFile = Paths.get(this.directory, this.fileName);
+//
+//            if (Files.notExists(dataDirectory)) {2
+//                Files.createDirectories(dataDirectory);
+//            }
+//            if (!Files.exists(dataFile)) {
+//                Files.createFile(dataFile);
+//
+//            }
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            e.printStackTrace();
+//        }
+//
+//        }
 }
